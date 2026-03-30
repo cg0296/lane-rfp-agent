@@ -1,0 +1,22 @@
+# Secrets & tokens
+.env
+*.tokens.json
+outlook-mcp/.env
+
+# Node
+node_modules/
+package-lock.json
+
+# MCP config with secrets
+.mcp.json
+
+# Python
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
+Thumbs.db
+
+# PDFs (generated)
+*.pdf

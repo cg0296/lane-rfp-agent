@@ -9,18 +9,18 @@ function App() {
   const [carriers, setCarriers] = useState([])
 
   useEffect(() => {
-    fetchCarriers()
-  }, [])
-
-  const fetchCarriers = async () => {
-    try {
-      const response = await fetch('http://localhost:8000/api/carriers')
-      const data = await response.json()
-      setCarriers(data)
-    } catch (error) {
-      console.error('Error fetching carriers:', error)
+    const loadCarriers = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/carriers')
+        const data = await response.json()
+        setCarriers(data)
+      } catch (error) {
+        console.error('Error fetching carriers:', error)
+      }
     }
-  }
+
+    loadCarriers()
+  }, [])
 
   const handleEmailParsed = (data) => {
     setParsedData(data)
@@ -55,7 +55,15 @@ function App() {
               carriers={carriers}
               onGenerated={handleQuoteGenerated}
               onBack={handleBack}
-              onCarrierAdded={() => fetchCarriers()}
+              onCarrierAdded={async () => {
+                try {
+                  const response = await fetch('http://localhost:8000/api/carriers')
+                  const data = await response.json()
+                  setCarriers(data)
+                } catch (error) {
+                  console.error('Error fetching carriers:', error)
+                }
+              }}
             />
           )}
         </div>

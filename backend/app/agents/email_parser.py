@@ -23,7 +23,7 @@ Optional:
 - Special requirements (insurance, e-track, commodity type, equipment specs, hazmat, etc.)
 
 Return ONLY valid JSON (no markdown, no backticks) with this structure:
-{
+{{
   "origin_city": "string",
   "origin_state": "string (2-letter code)",
   "destination_city": "string",
@@ -37,7 +37,7 @@ Return ONLY valid JSON (no markdown, no backticks) with this structure:
   "special_requirements": ["array of strings"],
   "confidence": 0.95,
   "notes": "any clarifications or missing info"
-}
+}}
 
 Email to parse:
 {email_text}"""
@@ -70,6 +70,16 @@ def parse_email(email_text: str, client_name: Optional[str] = None) -> ParsedQuo
 
     # Extract the response text
     response_text = message.content[0].text.strip()
+
+    # Remove markdown code blocks if present
+    if response_text.startswith("```json"):
+        response_text = response_text[7:]  # Remove ```json
+    if response_text.startswith("```"):
+        response_text = response_text[3:]  # Remove ```
+    if response_text.endswith("```"):
+        response_text = response_text[:-3]  # Remove trailing ```
+
+    response_text = response_text.strip()
 
     # Parse JSON
     try:

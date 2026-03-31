@@ -52,6 +52,8 @@ DEFAULT_CARRIERS = [
 for carrier in DEFAULT_CARRIERS:
     carriers_db[carrier["id"]] = Carrier(**carrier)
 
+next_carrier_id = max(carriers_db.keys(), default=0) + 1
+
 
 # Health check
 @app.get("/health")
@@ -133,8 +135,7 @@ async def create_carrier(carrier: CarrierCreate):
         id=new_id,
         name=carrier.name,
         email=carrier.email,
-        phone=carrier.phone,
-        created_at=None
+        phone=carrier.phone
     )
 
     carriers_db[new_id] = new_carrier

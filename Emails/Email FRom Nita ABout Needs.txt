@@ -1,8 +1,0 @@
-
-Alright,  so in short, I need to know if there is a way to make the following much simpler when it comes to getting all data on excel: 
-
-Our clients will send us a spreadsheet of all the lanes needed to quote. 
-Pick up location / del location / # of skids / weight of load / - then we provide the carrier and their rate.
-(we’d usually go with our lowest option and fill the chart with the carrier and their rate BUT we mark up.) 
-
-So if a carrier quotes $1500, we mark up 15% and that would be the rate on the spreadsheet. 

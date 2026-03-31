@@ -6,6 +6,7 @@ outlook-mcp/.env
 # Node
 node_modules/
 package-lock.json
+npm-debug.log
 
 # MCP config with secrets
 .mcp.json
@@ -13,10 +14,20 @@ package-lock.json
 # Python
 __pycache__/
 *.pyc
+*.pyo
+.pytest_cache/
+venv/
 
 # OS
 .DS_Store
 Thumbs.db
 
-# PDFs (generated)
-*.pdf
+# IDE
+.vscode/
+.idea/
+
+# Generated files
+downloads/
+
+# Planning (research and initial specs - not part of final deliverable)
+.planning/

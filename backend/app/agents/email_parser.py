@@ -72,12 +72,12 @@ def parse_email(email_text: str, client_name: Optional[str] = None) -> ParsedQuo
     response_text = message.content[0].text.strip()
 
     # Remove markdown code blocks if present
-    if response_text.startswith("```json"):
-        response_text = response_text[7:]  # Remove ```json
-    if response_text.startswith("```"):
-        response_text = response_text[3:]  # Remove ```
-    if response_text.endswith("```"):
-        response_text = response_text[:-3]  # Remove trailing ```
+    if "```" in response_text:
+        # Extract JSON between backticks
+        start = response_text.find("{")
+        end = response_text.rfind("}") + 1
+        if start != -1 and end > start:
+            response_text = response_text[start:end]
 
     response_text = response_text.strip()
 
@@ -85,7 +85,18 @@ def parse_email(email_text: str, client_name: Optional[str] = None) -> ParsedQuo
     try:
         parsed_data = json.loads(response_text)
     except json.JSONDecodeError as e:
-        raise ValueError(f"Failed to parse Claude's response as JSON: {e}\nResponse: {response_text}")
+        # Try to extract JSON object more aggressively
+        try:
+            # Find first { and last }
+            start = response_text.find("{")
+            end = response_text.rfind("}") + 1
+            if start >= 0 and end > start:
+                json_str = response_text[start:end]
+                parsed_data = json.loads(json_str)
+            else:
+                raise ValueError(f"No JSON object found in response: {response_text[:100]}")
+        except json.JSONDecodeError as inner_e:
+            raise ValueError(f"Failed to parse Claude's response as JSON: {inner_e}\nResponse: {response_text[:200]}")
 
     # Validate required fields
     required_fields = [

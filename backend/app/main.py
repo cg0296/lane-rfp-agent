@@ -50,7 +50,7 @@ DEFAULT_CARRIERS = [
 ]
 
 for carrier in DEFAULT_CARRIERS:
-    carriers_db[carrier["id"]] = Carrier(**carrier, created_at=None)
+    carriers_db[carrier["id"]] = Carrier(**carrier)
 
 
 # Health check

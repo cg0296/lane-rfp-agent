@@ -51,7 +51,7 @@ class CarrierUpdate(CarrierBase):
 
 class Carrier(CarrierBase):
     id: int
-    created_at: datetime
+    created_at: datetime = Field(default_factory=lambda: datetime.now())
 
     class Config:
         from_attributes = True
